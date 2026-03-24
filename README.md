@@ -1,5 +1,33 @@
 # second-brain
 
+A personal knowledge base for capturing notes, todos, journal entries, and daily work logs — with a built-in standup generator for end-of-day reporting.
+
+## Cheat Sheet
+
+| Command | What it does |
+|---|---|
+| `todo <the thing you want to remember>` | Adds a todo item |
+| `todos` | Shows all your todos |
+| `note "<your note text>"` | Saves a quick note |
+| `log <what just happened>` | Adds a timestamped bullet to today's journal |
+| `journal` | Shows today's journal entries |
+| `import_log` | Paste a work log from another tool into today's journal |
+| `standup` | Generates your Basecamp check-in from today's journal |
+| `sb` | Opens the visual app (press Ctrl+C to quit) |
+
+### How to use import_log
+
+1. Type `import_log` and press Enter
+2. Paste your work log contents
+3. Press **Ctrl+D** (hold Control, tap D) — this tells the terminal you're done
+4. It will confirm: "Work log added to today's journal"
+
+### How to open Claude Code in this project
+
+1. Open a terminal window
+2. Type: `cd ~/claude-code-course/playground/second-brain`
+3. Type: `claude`
+
 ## Installation
 
 Clone the repository and install dependencies:

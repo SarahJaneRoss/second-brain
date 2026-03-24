@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -116,7 +117,182 @@ def show(number):
     click.echo(f"\n{note.name}\n{divider}\n{note.read_text()}")
 
 
+def get_todos_path(notes_dir: Path) -> Path:
+    """Return the path for the todos inbox file."""
+    return notes_dir / "todos.md"
+
+
+def ensure_todos(notes_dir: Path) -> Path:
+    """Get the todos file, creating it if it doesn't exist yet."""
+    notes_dir.mkdir(parents=True, exist_ok=True)
+    path = get_todos_path(notes_dir)
+    if not path.exists():
+        path.write_text("# Todos\n\n")
+    return path
+
+
+@cli.group()
+def todo():
+    """Manage your todo inbox."""
+
+
+@todo.command(name="add")
+@click.argument("item", nargs=-1, required=True)
+def todo_add(item):
+    """Add a new todo item.
+
+    Example: second_brain todo add buy milk
+    """
+    text = " ".join(item)
+    notes_dir = get_notes_dir()
+    path = ensure_todos(notes_dir)
+
+    with path.open("a") as f:
+        f.write(f"- [ ] {text}\n")
+
+    click.echo(f"Todo added: {text}")
+
+
+@todo.command(name="list")
+def todo_list():
+    """List all todos.
+
+    Example: second_brain todo list
+    """
+    notes_dir = get_notes_dir()
+    path = get_todos_path(notes_dir)
+
+    if not path.exists():
+        click.echo("No todos yet.")
+        return
+
+    click.echo(path.read_text())
+
+
+def get_journal_path(notes_dir: Path) -> Path:
+    """Return the path for today's journal file."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    return notes_dir / f"journal_{today}.md"
+
+
+def ensure_journal(notes_dir: Path) -> Path:
+    """Get today's journal, creating it with a header if it doesn't exist yet."""
+    notes_dir.mkdir(parents=True, exist_ok=True)
+    path = get_journal_path(notes_dir)
+    if not path.exists():
+        today = datetime.now().strftime("%Y-%m-%d")
+        path.write_text(f"# Journal — {today}\n\n")
+    return path
+
+
+@cli.command()
+@click.argument("entry", nargs=-1, required=True)
+def log(entry):
+    """Add a quick bullet to today's journal entry.
+
+    Example: second_brain log 1:1 Philip — discussed launch timeline
+    """
+    text = " ".join(entry)
+    notes_dir = get_notes_dir()
+    path = ensure_journal(notes_dir)
+
+    now = datetime.now().strftime("%H:%M")
+    with path.open("a") as f:
+        f.write(f"- {now} {text}\n")
+
+    click.echo(f"Logged: {text}")
+
+
+@cli.command()
+def journal():
+    """Open today's journal entry."""
+    notes_dir = get_notes_dir()
+    path = ensure_journal(notes_dir)
+    click.echo(path.read_text())
+
+
+@cli.command(name="import-log")
+def import_log():
+    """Paste a work log into today's journal.
+
+    Paste your content, then press Ctrl+D to save.
+
+    Example: second_brain import-log
+    """
+    click.echo("Paste your work log, then press Ctrl+D to save:\n")
+    content = sys.stdin.read().strip()
+
+    if not content:
+        click.echo("Nothing to import.")
+        return
+
+    notes_dir = get_notes_dir()
+    path = ensure_journal(notes_dir)
+
+    now = datetime.now().strftime("%H:%M")
+    with path.open("a") as f:
+        f.write(f"\n## Work log imported at {now}\n\n{content}\n")
+
+    click.echo("\nWork log added to today's journal.")
+
+
+STANDUP_PROMPT = """You are helping Sarah Jane write her daily Basecamp check-in response to "What have you worked on today?"
+
+Rules:
+- Report only what actually happened — no embellishment, no drama, no "finally figured out"
+- Tasks and tool runs are reported as plain facts: what was run, what was found, what was done
+- Do not group items into categories (no Strategy, Content, Tooling, or any other headings) — everything goes into one flat list
+- 1:1s and conversations can be brief narrative since they involve real human context
+- No filler phrases like "dove deep", "satisfying", "exciting", or anything that adds color to routine work
+- Keep it concise — a grocery list of what got done, written in first person
+- Ready to paste into Basecamp as-is
+
+Here is today's journal:
+
+{journal}
+
+Write the check-in now."""
+
+
+@cli.command()
+def standup():
+    """Generate a Basecamp standup from today's journal.
+
+    Example: second_brain standup
+    """
+    notes_dir = get_notes_dir()
+    path = get_journal_path(notes_dir)
+
+    if not path.exists():
+        click.echo("No journal entries for today yet.")
+        return
+
+    journal_content = path.read_text().strip()
+    if not journal_content:
+        click.echo("Today's journal is empty.")
+        return
+
+    prompt = STANDUP_PROMPT.format(journal=journal_content)
+
+    click.echo("Generating your standup...\n")
+    result = subprocess.run(
+        ["claude", "-p", prompt],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        click.echo(f"Error: {result.stderr}")
+        return
+
+    click.echo(result.stdout)
+
+
 def main():
     """Run the application."""
     configure_logging()
-    cli()
+    if len(sys.argv) == 1:
+        from second_brain.tui import launch_tui
+        launch_tui()
+    else:
+        cli()
