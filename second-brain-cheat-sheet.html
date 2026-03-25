@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sarah Jane's Terminal Cheat Sheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 1200px 1554px; margin: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      width: 1200px;
+      height: 1554px;
+      background: #F5F7FA;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .header {
+      height: 130px;
+      background: #F5F7FA;
+      padding: 20px 30px 14px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .header-icon {
+      width: 92px;
+      height: 92px;
+      background: #18354c;
+      border-radius: 16px;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 92px;
+    }
+
+    .header-icon span {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 38px;
+      font-weight: 700;
+      color: #FFD53E;
+    }
+
+    .header-text h1 {
+      color: #18354c;
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .header-text p {
+      color: #666666;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .content {
+      padding: 4px 30px;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-header {
+      background: #d8e3eb;
+      color: #18354c;
+      border-radius: 3px;
+      padding: 7px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 12px 16px;
+      overflow: hidden;
+    }
+
+    .card.flex-1 { flex: 1; }
+    .card.flex-2 { flex: 2; }
+
+    .card.accent-blue  { border-top: 3px solid #b8c9d6; }
+    .card.accent-yellow{ border-top: 3px solid #e8d4a0; }
+    .card.accent-green { border-top: 3px solid #b8d4b0; }
+    .card.accent-violet{ border-top: 3px solid #c5bdd8; }
+
+    .card.bg-blue   { background: #d8e3eb; }
+    .card.bg-green  { background: #dceedd; }
+    .card.bg-violet { background: #e5e0f0; }
+    .card.bg-yellow { background: #fce8c8; }
+    .card.bg-alert  { background: #dfebf5; }
+
+    .card h3 {
+      color: #18354c;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      margin-top: 12px;
+    }
+
+    .card h3:first-child { margin-top: 0; }
+
+    .card p {
+      color: #666666;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .mini-table th {
+      background: #d8e3eb;
+      color: #18354c;
+      font-weight: 600;
+      padding: 5px 10px;
+      text-align: left;
+      font-size: 11px;
+    }
+
+    .mini-table td {
+      padding: 6px 10px;
+      color: #666666;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    .mini-table td:first-child {
+      white-space: nowrap;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: #18354c;
+      font-weight: 600;
+    }
+
+    .mini-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    code {
+      font-family: 'Roboto Mono', monospace;
+      background: #f3f3f3;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+    .card.bg-blue code   { background: #edf2f6; }
+    .card.bg-green code  { background: #edf6ee; }
+    .card.bg-violet code { background: #efedf5; }
+    .card.bg-yellow code { background: #f5ddb3; }
+
+    kbd {
+      display: inline-block;
+      background: #f3f3f3;
+      border: 1px solid #d0d0d0;
+      border-radius: 3px;
+      padding: 0px 6px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: #18354c;
+      line-height: 1.5;
+    }
+
+    .tip-box {
+      background: #dfebf5;
+      border-left: 3px solid #3C81A9;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .tip-box p {
+      color: #32516b;
+      font-size: 13px;
+    }
+
+    .tip-label {
+      font-weight: 700;
+      color: #3C81A9;
+      font-size: 13px;
+    }
+
+    .step-num {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #3C81A9;
+      color: #FFFFFF;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 20px;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
+    .step-num.yellow { background: #e8a817; }
+    .step-num.green  { background: #74ac6c; }
+    .step-num.violet { background: #8b7db8; }
+    .step-num.red    { background: #c0504d; }
+
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tip-item:last-child { margin-bottom: 0; }
+
+    .tip-item p {
+      color: #666666;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tip-item strong {
+      color: #18354c;
+      font-weight: 600;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 5px;
+    }
+
+    .card li {
+      font-size: 13px;
+      color: #666666;
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .card li::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      color: #3C81A9;
+      font-weight: 700;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #18354c;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer p {
+      color: #8BA5B5;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-icon"><span>SB</span></div>
+    <div class="header-text">
+      <h1>Sarah Jane's Terminal Cheat Sheet</h1>
+      <p>Second Brain commands for daily capture and reporting — plus the terminal basics nobody tells you about.<br>
+      Notes live in <code>~/second_brain/</code> &nbsp;·&nbsp; Project lives in <code>~/claude-code-course/playground/second-brain/</code></p>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- ===== ROW 1: Second Brain — Capture ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Second Brain — Capture</div>
+      <div class="section-header" style="flex: 1;">Second Brain — Import &amp; Standup</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 accent-blue">
+        <table class="mini-table">
+          <tr>
+            <td style="width: 38%;">todo &lt;the thing&gt;</td>
+            <td>Add a todo item to your inbox</td>
+          </tr>
+          <tr>
+            <td>todos</td>
+            <td>Show all your todos</td>
+          </tr>
+          <tr>
+            <td>note "&lt;your text&gt;"</td>
+            <td>Save a quick note as its own file</td>
+          </tr>
+          <tr>
+            <td>log &lt;what happened&gt;</td>
+            <td>Add a timestamped bullet to today's journal</td>
+          </tr>
+          <tr>
+            <td>journal</td>
+            <td>Show today's full journal</td>
+          </tr>
+          <tr>
+            <td>sb</td>
+            <td>Open the visual app &nbsp;<span style="color:#8BA5B5; font-size:11px;">press Ctrl+C to quit</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card flex-1 accent-green">
+        <h3 style="margin-top:0;">import_log — add CMS work to your journal</h3>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;">
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num">1</span>
+            <p>Type <code>import_log</code> and press <kbd>Enter</kbd></p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num yellow">2</span>
+            <p>Paste your CMS work log contents</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num green">3</span>
+            <p>Press <kbd>Ctrl</kbd>+<kbd>D</kbd> — hold Control, tap D. This tells the terminal "I'm done."</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num violet">4</span>
+            <p>It confirms: <em>"Work log added to today's journal"</em></p>
+          </div>
+        </div>
+        <h3>standup — generate your Basecamp check-in</h3>
+        <p>Type <code>standup</code> and wait a few seconds. Claude reads today's journal and writes your "What did you work on today?" response, ready to copy and paste into Basecamp.</p>
+      </div>
+    </div>
+
+    <!-- ===== ROW 2: Opening Claude Code | Terminal Basics ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Opening Claude Code in Your Project</div>
+      <div class="section-header" style="flex: 1;">Terminal Survival Kit</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 bg-yellow">
+        <h3 style="margin-top:0;">Do this every time you open a new terminal window</h3>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom: 12px;">
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num">1</span>
+            <p>Open a new terminal window</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num yellow">2</span>
+            <p>Type: <code>cd ~/claude-code-course/playground/second-brain</code></p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num green">3</span>
+            <p>Type: <code>claude</code></p>
+          </div>
+        </div>
+        <div class="tip-box">
+          <p><span class="tip-label">Why this matters: </span>Claude Code needs to be opened <em>inside</em> your project folder so it knows where all your files are. If you just type <code>claude</code> from anywhere, it won't know about your second brain.</p>
+        </div>
+      </div>
+
+      <div class="card flex-1 accent-blue">
+        <table class="mini-table">
+          <tr>
+            <th>Key / Command</th>
+            <th>What it does</th>
+          </tr>
+          <tr>
+            <td>Ctrl + C</td>
+            <td>Cancel whatever is running. Your get-out-of-jail key.</td>
+          </tr>
+          <tr>
+            <td>Ctrl + D</td>
+            <td>"I'm done typing." Used after pasting into <code>import_log</code>. Nothing visible happens — it just submits.</td>
+          </tr>
+          <tr>
+            <td>source ~/.zshrc</td>
+            <td>Reload your settings after making changes. Only needed once per terminal session.</td>
+          </tr>
+          <tr>
+            <td>pwd</td>
+            <td>"Where am I?" — prints your current folder location.</td>
+          </tr>
+          <tr>
+            <td>cd ~</td>
+            <td>Go back to your home folder from anywhere.</td>
+          </tr>
+          <tr>
+            <td>history</td>
+            <td>Show a list of everything you've typed recently.</td>
+          </tr>
+          <tr>
+            <td>↑ arrow key</td>
+            <td>Bring back your last command so you can re-run or edit it.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ROW 3: Gotchas ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Gotchas — Things That Will Trip You Up</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 accent-blue">
+        <div class="tip-item">
+          <span class="step-num red">!</span>
+          <p><strong>Apostrophes break commands</strong> — Don't use <code>'</code> in your text. <code>todo chris' notes</code> will hang. Use <code>todo chris notes</code> instead. If it hangs, press <kbd>Ctrl</kbd>+<kbd>C</kbd> to cancel.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num red">!</span>
+          <p><strong>The <code>quote&gt;</code> prompt means the terminal is waiting</strong> — If you see <code>quote&gt;</code> instead of the normal prompt, you accidentally opened a quote that never closed. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to get out.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num red">!</span>
+          <p><strong>Aliases only work after sourcing</strong> — If you edit <code>~/.zshrc</code> and your new command isn't working, run <code>source ~/.zshrc</code> to reload it. New terminal windows load it automatically.</p>
+        </div>
+      </div>
+
+      <div class="card flex-1 accent-yellow">
+        <div class="tip-item">
+          <span class="step-num yellow">★</span>
+          <p><strong>Your journal lives at <code>~/second_brain/</code></strong> — Files like <code>journal_2026-03-25.md</code> are plain text files. You can open them in any app including VS Code or Notes.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num yellow">★</span>
+          <p><strong>The second brain aliases work from any terminal window</strong> — You don't need to be in your project folder to use <code>todo</code>, <code>log</code>, <code>journal</code>, etc. Those work anywhere.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num yellow">★</span>
+          <p><strong>You only need Claude Code open for <code>standup</code></strong> — All the capture commands (<code>todo</code>, <code>log</code>, <code>import_log</code>) work without Claude. Open Claude Code at end of day when you're ready to generate the report.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ROW 4: Quick Reference Summary ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">At a Glance</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 bg-blue">
+        <h3 style="margin-top:0;">During the day (no Claude needed)</h3>
+        <ul>
+          <li><code>todo &lt;item&gt;</code> — capture a to-do as it hits you</li>
+          <li><code>log &lt;what happened&gt;</code> — log a meeting, task, or note in real time</li>
+          <li><code>import_log</code> — paste in your CMS work log whenever you have it</li>
+        </ul>
+      </div>
+      <div class="card flex-1 bg-green">
+        <h3 style="margin-top:0;">End of day (open Claude Code first)</h3>
+        <ul>
+          <li>Navigate to project: <code>cd ~/claude-code-course/playground/second-brain</code></li>
+          <li>Open Claude: <code>claude</code></li>
+          <li>Generate report: <code>standup</code></li>
+          <li>Copy output → paste into Basecamp check-in</li>
+        </ul>
+      </div>
+      <div class="card flex-1 bg-violet">
+        <h3 style="margin-top:0;">When something goes wrong</h3>
+        <ul>
+          <li>Terminal frozen or stuck → <kbd>Ctrl</kbd>+<kbd>C</kbd></li>
+          <li>Command not found → <code>source ~/.zshrc</code></li>
+          <li>Apostrophe hung the terminal → <kbd>Ctrl</kbd>+<kbd>C</kbd>, retype without <code>'</code></li>
+          <li>Not sure where you are → <code>pwd</code></li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>second-brain · github.com/SarahJaneRoss/second-brain</p>
+    <p>Built with Claude Code · Real Python 2026</p>
+  </footer>
+
+</body>
+</html>

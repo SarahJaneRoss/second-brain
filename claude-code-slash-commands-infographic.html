@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Claude Code — Built-in Slash Commands</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 1200px 1554px; margin: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      width: 1200px;
+      height: 1554px;
+      background: #F5F7FA;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      height: 130px;
+      background: #F5F7FA;
+      padding: 20px 30px 14px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .header-icon {
+      width: 92px;
+      height: 92px;
+      background: #18354c;
+      border-radius: 16px;
+      flex-shrink: 0;
+      text-align: center;
+      line-height: 92px;
+    }
+
+    .header-icon span {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 54px;
+      font-weight: 700;
+      color: #FFD53E;
+    }
+
+    .header-text h1 {
+      color: #18354c;
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .header-text p {
+      color: #666666;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .header-text a {
+      color: #666666;
+      text-decoration: underline;
+    }
+
+    /* ========== CONTENT ========== */
+    .content {
+      padding: 4px 30px;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* ========== SECTION HEADERS ========== */
+    .section-header {
+      background: #d8e3eb;
+      color: #18354c;
+      border-radius: 3px;
+      padding: 7px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1;
+    }
+
+    /* ========== CARDS ========== */
+    .card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 12px 16px;
+      overflow: hidden;
+    }
+
+    .card.flex-1 { flex: 1; }
+    .card.flex-2 { flex: 2; }
+
+    .card.accent-blue { border-top: 3px solid #b8c9d6; }
+    .card.accent-yellow { border-top: 3px solid #e8d4a0; }
+    .card.accent-green { border-top: 3px solid #b8d4b0; }
+    .card.accent-violet { border-top: 3px solid #c5bdd8; }
+
+    .card.bg-blue { background: #d8e3eb; }
+    .card.bg-green { background: #dceedd; }
+    .card.bg-violet { background: #e5e0f0; }
+    .card.bg-alert { background: #dfebf5; }
+
+    /* ========== CARD TYPOGRAPHY ========== */
+    .card h3 {
+      color: #18354c;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      margin-top: 12px;
+    }
+
+    .card h3:first-child { margin-top: 0; }
+
+    .card p {
+      color: #666666;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* ========== MINI TABLE ========== */
+    .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .mini-table th {
+      background: #d8e3eb;
+      color: #18354c;
+      font-weight: 600;
+      padding: 5px 10px;
+      text-align: left;
+      font-size: 11px;
+    }
+
+    .mini-table td {
+      padding: 6px 10px;
+      color: #666666;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    .mini-table td:first-child {
+      white-space: nowrap;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: #18354c;
+      font-weight: 600;
+    }
+
+    .mini-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Sub-section header inside a card */
+    .sub-header {
+      color: #18354c;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 0 4px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 0;
+    }
+
+    .sub-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 0;
+    }
+
+    .sub-table td {
+      padding: 6px 10px;
+      color: #666666;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+
+    .sub-table td:first-child {
+      white-space: nowrap;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: #18354c;
+      font-weight: 600;
+    }
+
+    .sub-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Alias text */
+    .alias {
+      color: #8BA5B5;
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    /* ========== INLINE CODE ========== */
+    code {
+      font-family: 'Roboto Mono', monospace;
+      background: #f3f3f3;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+    .card.bg-blue code { background: #edf2f6; }
+    .card.bg-green code { background: #edf6ee; }
+    .card.bg-violet code { background: #efedf5; }
+    .card.bg-yellow-light code { background: #f5ddb3; }
+
+    /* ========== KBD ========== */
+    kbd {
+      display: inline-block;
+      background: #f3f3f3;
+      border: 1px solid #d0d0d0;
+      border-radius: 3px;
+      padding: 0px 6px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+      color: #18354c;
+      line-height: 1.5;
+    }
+
+    /* ========== TIP BOX ========== */
+    .tip-box {
+      background: #dfebf5;
+      border-left: 3px solid #3C81A9;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .tip-box p {
+      color: #32516b;
+      font-size: 13px;
+    }
+
+    .tip-label {
+      font-weight: 700;
+      color: #3C81A9;
+      font-size: 13px;
+    }
+
+    /* ========== STEP NUMBER ========== */
+    .step-num {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: #3C81A9;
+      color: #FFFFFF;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 20px;
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+
+    .step-num.yellow { background: #e8a817; }
+    .step-num.green { background: #74ac6c; }
+    .step-num.violet { background: #8b7db8; }
+
+    /* ========== LISTS ========== */
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 5px;
+    }
+
+    .card li {
+      font-size: 13px;
+      color: #666666;
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .card li::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      color: #3C81A9;
+      font-weight: 700;
+    }
+
+    /* ========== POWER TIP ITEMS ========== */
+    .tip-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .tip-item:last-child { margin-bottom: 0; }
+
+    .tip-item p {
+      color: #666666;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tip-item strong {
+      color: #18354c;
+      font-weight: 600;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #18354c;
+      padding: 0 30px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .footer-logo { height: 28px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-icon"><span>/</span></div>
+    <div class="header-text">
+      <h1>Claude Code — Built-in Slash Commands</h1>
+      <p>A quick reference for the most important <code>/</code> commands in Claude Code.<br>
+      Visit <a href="https://code.claude.com/docs/en/commands">code.claude.com</a> for full documentation.</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <!-- ===== ROW 1: Quick Start | Session Management ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Quick Start</div>
+      <div class="section-header" style="flex: 2;">Session Management</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1" style="background: #fce8c8;">
+        <h3 style="margin-top: 0;">Getting Started</h3>
+        <p>Type <kbd>/</kbd> at the Claude Code prompt to see all available commands.</p>
+        <p style="margin-top: 8px;">Type <kbd>/</kbd> followed by any letters to filter the list.</p>
+        <p style="margin-top: 8px;">Commands work in any interactive Claude Code session — terminal, IDE, or desktop app.</p>
+      </div>
+
+      <div class="card flex-2 accent-blue">
+        <table class="mini-table">
+          <tr><td style="width: 20%;">/clear</td><td>Clear conversation history and free up context <span class="alias">| /reset, /new</span></td></tr>
+          <tr><td>/context</td><td>Visualize current context usage as a colored grid with optimization tips</td></tr>
+          <tr><td>/copy</td><td>Copy last response to clipboard; interactive picker for code blocks</td></tr>
+          <tr><td>/desktop</td><td>Continue session in Claude Desktop app <span class="alias">| /app</span></td></tr>
+          <tr><td>/diff</td><td>Interactive diff viewer for uncommitted changes and per-turn diffs</td></tr>
+          <tr><td>/effort</td><td>Set effort level: <code>low</code> <code>medium</code> <code>high</code> <code>max</code> <code>auto</code></td></tr>
+          <tr><td>/exit</td><td>Exit the CLI <span class="alias">| /quit</span></td></tr>
+          <tr><td>/export</td><td>Export conversation as plain text to a file or the clipboard</td></tr>
+          <tr><td>/fork</td><td>Create a fork of the current conversation at this point</td></tr>
+          <tr><td>/model</td><td>Select or change the AI model</td></tr>
+          <tr><td>/remote-control</td><td>Make session available for remote control from claude.ai <span class="alias">| /rc</span></td></tr>
+          <tr><td>/rewind</td><td>Rewind conversation and/or code to a previous point <span class="alias">| /checkpoint</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ROW 2: Configuration | Project ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Configuration &amp; Settings</div>
+      <div class="section-header" style="flex: 1;">Project &amp; Codebase</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 accent-blue">
+        <table class="mini-table">
+          <tr><td style="width: 26%;">/color</td><td>Set prompt bar color (<code>red</code> <code>blue</code> <code>green</code> <code>yellow</code> <code>purple</code> etc.)</td></tr>
+          <tr><td>/config</td><td>Open settings interface: theme, model, output style <span class="alias">| /settings</span></td></tr>
+          <tr><td>/keybindings</td><td>Open or create keybindings configuration file</td></tr>
+          <tr><td>/memory</td><td>Edit CLAUDE.md files, enable/disable auto-memory</td></tr>
+          <tr><td>/permissions</td><td>View or update tool permissions <span class="alias">| /allowed-tools</span></td></tr>
+          <tr><td>/statusline</td><td>Configure the status line display</td></tr>
+        </table>
+      </div>
+
+      <div class="card flex-1 accent-green">
+        <table class="mini-table">
+          <tr><td style="width: 30%;">/add-dir</td><td>Add a new working directory to the current session</td></tr>
+          <tr><td>/init</td><td>Initialize project with a <code>CLAUDE.md</code> guide</td></tr>
+          <tr><td>/plan</td><td>Enter plan mode directly from the prompt</td></tr>
+          <tr><td>/pr-comments</td><td>Fetch comments from a GitHub pull request</td></tr>
+          <tr><td>/security-review</td><td>Analyze pending branch changes for security vulnerabilities</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ROW 3: Extensions | Help ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Extensions &amp; Integrations</div>
+      <div class="section-header" style="flex: 1;">Help &amp; Diagnostics</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 accent-violet">
+        <table class="mini-table">
+          <tr><td style="width: 26%;">/agents</td><td>Manage agent configurations</td></tr>
+          <tr><td>/ide</td><td>Manage IDE integrations and show status</td></tr>
+          <tr><td>/mcp</td><td>Manage MCP server connections and OAuth authentication</td></tr>
+          <tr><td>/skills</td><td>List available skills</td></tr>
+          <tr><td>/tasks</td><td>List and manage background tasks</td></tr>
+        </table>
+      </div>
+
+      <div class="card flex-1 accent-blue">
+        <table class="mini-table">
+          <tr><td style="width: 26%;">/btw</td><td>Ask a side question without adding to the conversation</td></tr>
+          <tr><td>/help</td><td>Show help and available commands</td></tr>
+          <tr><td>/insights</td><td>Generate report analyzing sessions and friction points</td></tr>
+          <tr><td>/stats</td><td>Visualize daily usage, session history, and streaks</td></tr>
+          <tr><td>/status</td><td>Show version, model, account, and connectivity info</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== ROW 4: Beyond Built-in Commands ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Beyond Built-in Commands</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 bg-blue">
+        <h3 style="margin-top: 0;">Bundled Skills</h3>
+        <p><code>/simplify</code>, <code>/batch</code>, and <code>/debug</code> ship with Claude Code and appear alongside built-in commands in the <kbd>/</kbd> menu.</p>
+      </div>
+      <div class="card flex-1 bg-green">
+        <h3 style="margin-top: 0;">Custom Skills</h3>
+        <p>Any <code>.md</code> files placed in <code>.claude/skills/</code> or installed via plugins become <code>/skill-name</code> commands you can invoke.</p>
+      </div>
+      <div class="card flex-1 bg-violet">
+        <h3 style="margin-top: 0;">MCP Prompts</h3>
+        <p>MCP servers can expose prompts as <code>/mcp__&lt;server&gt;__&lt;prompt&gt;</code> commands, dynamically discovered from connected servers.</p>
+      </div>
+    </div>
+
+    <!-- ===== ROW 5: Power Tips ===== -->
+    <div class="row">
+      <div class="section-header" style="flex: 1;">Power Tips</div>
+    </div>
+
+    <div class="row">
+      <div class="card flex-1 accent-blue">
+        <div class="tip-item">
+          <span class="step-num">1</span>
+          <p><strong>Save context with <code>/clear</code></strong> — Long sessions eat context fast. Clear history when switching tasks to reclaim space and keep Claude focused.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num yellow">2</span>
+          <p><strong>Use <code>/fork</code> before experimenting</strong> — About to try something risky? Fork first. You can always go back to the fork point if things go sideways.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num green">3</span>
+          <p><strong>Ask side questions with <code>/btw</code></strong> — Need a quick answer without derailing your conversation? <code>/btw</code> keeps side questions separate from main context.</p>
+        </div>
+      </div>
+
+      <div class="card flex-1 accent-blue">
+        <div class="tip-item">
+          <span class="step-num violet">4</span>
+          <p><strong>Tune performance with <code>/effort</code></strong> — Use <code>low</code> for quick factual lookups, <code>high</code> for complex reasoning, and <code>max</code> (Opus only) for the hardest problems.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num">5</span>
+          <p><strong>Monitor usage with <code>/context</code></strong> — The colored grid shows exactly how full your context window is. Use it to decide when to <code>/clear</code> or <code>/export</code>.</p>
+        </div>
+        <div class="tip-item">
+          <span class="step-num yellow">6</span>
+          <p><strong>Try commands in a separate session</strong> — Open a second Claude Code session to experiment with unfamiliar commands. Your main session stays untouched while you explore.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <svg class="footer-logo" viewBox="0 0 1920 465" preserveAspectRatio="xMidYMid meet">
+      <style>.st0{fill:#3A80A8;}.st1{fill:#FFD43C;}.st2{fill:#FFFFFF;}</style>
+      <g><path class="st0" d="M193.18,43.71c-15.62,0.07-30.54,1.4-43.66,3.73c-38.67,6.83-45.69,21.13-45.69,47.5v34.82h91.37v11.61h-91.37H69.54c-26.56,0-49.81,15.96-57.08,46.33c-8.39,34.8-8.76,56.52,0,92.86c6.5,27.05,22.01,46.33,48.56,46.33h31.42v-41.75c0-30.16,26.09-56.76,57.08-56.76h91.27c25.41,0,45.69-20.92,45.69-46.43V94.93c0-24.76-20.89-43.36-45.69-47.5C225.08,44.82,208.8,43.63,193.18,43.71z M143.76,71.71c9.44,0,17.15,7.83,17.15,17.47c0,9.6-7.71,17.36-17.15,17.36c-9.47,0-17.15-7.76-17.15-17.36C126.62,79.55,134.29,71.71,143.76,71.71z"/><path class="st1" d="M297.86,141.36v40.57c0,31.46-26.67,57.93-57.08,57.93h-91.27c-25,0-45.69,21.4-45.69,46.43v87.01c0,24.76,21.53,39.33,45.69,46.43c28.92,8.5,56.66,10.04,91.27,0c23-6.66,45.69-20.06,45.69-46.43v-34.82H195.2v-11.61h91.27h45.69c26.56,0,36.45-18.52,45.69-46.33c9.54-28.62,9.13-56.15,0-92.86c-6.56-26.44-19.1-46.33-45.69-46.33H297.86z M246.53,361.7c9.47,0,17.15,7.76,17.15,17.36c0,9.63-7.67,17.47-17.15,17.47c-9.44,0-17.15-7.83-17.15-17.47C229.39,369.46,237.09,361.7,246.53,361.7z"/><path class="st2" d="M1320.93,151.45c8.4-20.43,10.45-42.25,8.8-64.43c-0.93-12.47-5.32-24.54-12.99-34.41c-25.59-32.94-54.65-42.17-90.34-33.67c-31.88,7.6-59.09,24.13-82.37,46.84c-8.97,8.76-17.1,18.68-24.08,29.1c-11.74,17.51-18.39,37.03-17.53,58.47c0.8,19.93,12.6,35.32,30.94,40.76c2.59,0.77,5.39,0.84,8.38,1.28c-0.26-1.7-0.16-2.41-0.46-2.69c-1.16-1.09-2.31-2.32-3.7-3c-9.6-4.67-13.11-13.3-14.06-22.95c-0.62-6.33-0.23-12.93,0.86-19.21c3.14-18.16,11.47-34,23.18-48.09c24.86-29.91,56.51-49.09,93.88-59.2c10.49-2.84,21.2-4.12,31.94-2.84c18.32,2.19,22.62,3.47,27.53,23.45c4.27,17.35,1.91,34.71-2.36,51.83c-3.74,15-8.08,29.59-15.94,42.81c-11.68,19.65-38.18,61.21-78.13,88.31c2.58-62.16,5.92-125.1,6.07-132.73c0.02-0.4,0.05-0.74,0.08-1.15c-0.02-0.01-0.04-0.02-0.06-0.03c0.01-0.4,0.02-0.81,0.02-1.26c-0.01-0.64-0.4-1.34-1.01-2.09c-2.36-4.42-11.15-8.54-14.61-11.17c-10.42-7.91-13.97-6.63-15.62,6.4c-4.37,25.36-4.2,45.34-6.39,95.8c-0.73,16.75-1.21,39.57-1.49,63.48c-13.94,5.2-29.05,8.29-45.3,8.29c-3.74,0-7.55,1.3-9.14,6.6c7.6,9.08,16.41,12.01,26.06,12.01c9.75,0,19.14-0.95,28.15-2.67c-0.18,26.1-0.17,51.5-0.03,69.82c0.04,5.64,10.86,11.67,15.38,14.68c10.89,7.25,14.35,5.76,15.19-7.35c-0.71-15.83,0.1-49.4,1.47-87.02C1269.42,247.01,1309.93,178.19,1320.93,151.45z"/><path class="st2" d="M732.58,385.11c-2.9,0.14-11.7,8.6-20.71,9.03c-35.7,1.69-88.4-113.61-99.55-148.03c62.08-51.67,85.22-145.68,85.76-161.19c1.52-43.49-44.71-84.21-87.81-79.13c-19.62,2.31-37.68,8.46-54.82,17.68c-29.18,15.69-53.7,36.69-70.65,65.49c-9.82,16.69-15.64,34.8-14.57,54.51c1.14,21.01,15.57,38.02,34.63,41.03c1.57,0.25,3.28-0.36,5.31-0.61c-0.76-1.26-0.94-1.83-1.33-2.15c-1.02-0.86-2.02-1.84-3.21-2.39c-9.7-4.51-13.26-13.15-14.29-22.78c-0.68-6.32-0.33-12.94,0.75-19.22c2.91-17.02,10.36-32.15,21.05-45.63c25.31-31.89,58.26-52.03,97.36-62.28c14.19-3.72,28.65-4.28,43.04-0.3c4.99,1.38,9.32,3.92,10.67,8.92c13.91,51.81-24.94,150.13-93.82,196.27c2.51-58.94,5.53-116.02,5.67-123.26c0.02-0.4,0.05-0.74,0.08-1.15c-0.02-0.01-0.04-0.02-0.06-0.03c0.01-0.4,0.02-0.81,0.02-1.26c0-0.64-0.4-1.34-1.01-2.09c-2.36-4.42-11.15-8.54-14.61-11.17c-10.42-7.91-13.97-6.63-15.62,6.4c-4.37,25.36-4.2,45.34-6.39,95.8c-0.63,14.47-1.07,33.47-1.37,53.78c-14.27,5.17-29.43,8.08-45.36,8.08c-3.31,0-6.27,1.78-6.62,5.76c7.55,10.53,21.76,14.86,35.44,14.86c5.57,0,10.97-0.33,16.23-0.92c-0.23,28.22-0.22,56.2-0.07,75.95c0.04,5.64,10.86,11.67,15.38,14.68c10.89,7.25,14.35,5.76,15.19-7.35c-0.74-16.37,0.16-51.71,1.62-90.88c5.48-2.03,10.76-4.37,15.84-7.01c13.61,36.91,58.97,150.47,116.88,147.73C724.31,411.2,735.27,384.98,732.58,385.11z"/><path class="st2" d="M1734.2,156.95c-3.03-0.48-6.07-1.68-8.82-3.09c-18.83-9.62-33.11-6.36-43.98,10.29c-2.63,4.03-5.1,8.29-6.84,12.75c-12.21,31.31-15.07,64.08-17.11,91.64c-0.04,22.92,2.42,36.04,8.11,47.42c11.18,22.39,24.38,27.23,46.11,23.74c8.48-1.36,15.1-5.87,18.99-13.51c3.4-6.67,6.56-13.56,8.94-20.65c9.05-26.87,13.56-54.65,16.48-82.8c1.72-16.57,0.28-32.73-3.31-48.8C1750.26,162.69,1745.51,158.74,1734.2,156.95z M1735.17,223.23c-3.73,24.71-7.14,49.47-14.81,73.35c-2.37,7.39-5.41,14.6-8.6,21.68c-1.6,3.55-4.63,10.23-6.58,10.23c-2.32,0-10.77-11.09-12.61-17.5c-3.5-12.23-5.06-24.8-4.33-37.48c1.62-28.23,15.01-93.71,23.91-105.5c5.29-6.99,12.76-6.17,17.11,1.69c1.4,2.53,2.35,5.43,2.94,8.27C1735.52,193.87,1737.62,207.02,1735.17,223.23z"/><path class="st2" d="M1913.98,232.16c0,0-0.44-22.84-0.73-34.54c-0.23-9.23-1.66-18.89-4.13-27.9c-2.93-10.66-17.84-15.93-28.22-18.42c-4.95-1.19-9.07-0.32-12.33,3.63c-6.15,7.45-48.19,98.08-50.99,105.17c0-4.45,0-8.97,0-13.49c0.25-9.98,0.47-22.68-0.08-36.32c-0.07-13.59-0.2-24.26-0.44-28.41c-0.32-5.63-10.86-11.67-15.38-14.68c-10.89-7.26-14.35-5.76-15.19,7.35c0,16.71,1.32,169.32,1.65,171.71c0.67,4.9,3.45,7.49,8.44,8.1c8.48,1.03,17.98,0.75,19.87-3.2c21.47-105.63,57.18-160.82,70.41-182.85c0,5.3,0.18,8.98-0.03,12.63c-1.06,18.24-2.33,36.47-3.33,54.71c-0.06,1.18-0.9,115.16-0.13,128.57c0.32,5.63,10.86,11.67,15.38,14.68c10.89,7.25,14.35,5.76,15.19-7.35C1913.94,345.82,1913.87,232.93,1913.98,232.16z"/><path class="st2" d="M934.81,144.81c-1.16-0.46-2.35-0.89-3.56-1.23c-7.11-2.02-8.22-1.53-10.15,5.83c-3.13,11.95-9.68,37.7-10.55,40.8c-3.38-7.37-6.36-16.07-9.75-22.09c-8.73-15.48-21.63-25.67-39.99-25.67c-19.72,0-46.14,37.79-50.94,91.41c-13.52,27.29-53.96,94.64-71.84,94.64c-16.09,0-24.81-45.8-25.87-60.64c-0.14-2,0.26-4.04,0.39-5.91c20.74,2.49,37.66-3.56,51.19-18.77c12.37-13.91,20.35-30.23,26.14-47.73c4.2-12.68,5-25.79,4.44-39.03c-0.39-9.02-4.68-16.16-12.04-20.83c-14.23-9.03-29.35-11.55-45.15-3.88c-16.49,8-28.71,20.57-38.1,36.07c-12.51,20.64-14.31,43.44-17.2,67.11c-2.98,24.47,2.21,56.46,15.31,77.22c7.3,11.57,14.02,19.36,26.43,24.88c19,8.45,35.79,6.13,49.59-9.72c5.46-6.27,24.96-35.02,37.03-55.41c1.43,13.57,4.3,27.71,8.96,42.16c5.48,16.99,13.42,18.99,30.28,22.16c6.07,1.14,10.72-0.78,13.5-6.2c3.67-7.16,31.64-59.93,38.28-79.98c1.18,4.05,4.97,109.84,9.58,130.56c1.65,7.43,6.02,12.6,13.32,14.82c5.1,1.55,16.82,3.95,21.58,2.6c-3.56-8.94-5.21-30.21-5.86-40.92c-0.7-11.53-2.34-110.94,2.31-148.94c1.79-14.62,3.52-29.25,4.74-43.92C947.6,155.75,942.67,147.93,934.81,144.81z M729.47,184.63c7.91-15.21,24.85-39.28,43.23-39.28c11.99,5.48,6.64,21.48,5.51,27.5c-5.07,26.91-17.16,50.15-37.51,68.71c-7.47,6.82-16.31,9.97-27.49,10.95c-0.24-0.89-0.83-1.88-0.72-2.79C715.21,227.26,718.85,205.05,729.47,184.63z M889.94,227.28c-15.35,32.57-32.91,72.62-37.38,75.96c-9.92,0-17.71-140.41,19.78-140.41c4.35,0,18.42,23.99,20.39,29.54C896.85,203.95,895.47,215.53,889.94,227.28z"/><path class="st2" d="M1046.28,343.78c-2.9,0-16.9,9.07-23.82,9.07s-9.8-42.92-9.83-55.94c0,0,5.35-209.15,4.66-222.56c-0.29-5.63-10.79-11.73-15.29-14.77c-10.85-7.32-14.32-5.85-15.24,7.26c-4.75,64.42-5.38,229.72-4.75,239.63c0,8.67-0.2,62.99,32.06,62.99C1036.83,369.44,1048.97,343.78,1046.28,343.78z"/><path class="st2" d="M1608.94,179.03c-11.24-4.81-17.13-3.21-25.86,5.3c-13.2,12.86-43.53,89.61-43.84,89.54c-0.01-9.22,0.09-150.31,0.09-150.31c-0.06-26.58-0.2-51.27-0.53-57.04c-0.32-5.63-10.86-11.67-15.38-14.68c-8.7-5.79-12.61-5.99-14.26,0.83c-0.05,0.03-0.15,0-0.17,0.08c-0.01,0.01-0.01,0.32-0.02,0.76c-0.32,1.57-0.54,3.44-0.68,5.68c0,28.89,0.08,94.74,0.11,124.41c-15.98-0.29-50.9-0.65-50.9-0.65c0-3.86,0.3-119.68-0.46-133.08c-0.32-5.63-10.86-11.67-15.38-14.68c-10.89-7.25-14.35-5.76-15.19,7.35c0,44.42-0.04,140.42-0.04,140.42c-5.87,0-41.85-1.74-41.85,1.69c0,3.27,26.33,18.97,28.75,18.97c7.09,0,13.1,0,13.1,0s-0.26,114.07,0.51,127.48c0.32,5.63,10.86,11.67,15.38,14.68c10.89,7.25,14.35,5.76,15.19-7.35l-0.01-134.81c7.67-0.3,31.01,0.46,50.92,0.67c0.03,29.56,0.24,144.51,0.35,146.45c0.32,5.63,10.86,11.67,15.38,14.68c8.62,5.74,12.58,5.97,14.27-0.67c8.36-45.86,56.91-174.26,65.1-174.4c0,5.03,0.38,9.04-0.07,12.97c-0.81,7.06-2.7,167.44-2.54,176.93c0.1,5.64,10.86,11.67,15.38,14.68c10.89,7.26,14.35,5.76,15.19-7.35c0-9.42-2.02-173.56-3.34-183.66C1626.62,192.07,1620.04,183.78,1608.94,179.03z"/><path class="st2" d="M1367.62,205.63c-10.89-7.25-14.35-5.76-15.19,7.35c-18.84,111.88-44.81,151-49.51,151c-2.79,0-1.98-41.53-2.1-54.61l0.05-9.61c-0.12-28.49,0.24-15.24-0.53-28.64c-0.32-5.63-10.86-11.67-15.38-14.68c-10.89-7.25-14.35-5.76-15.19,7.35c0,10.94,0.61,64.35,0.61,72.29c1.58,12.34,2.9,28.83,14.77,35.08c22.22,11.69,32.21,8.81,45.11-10.21c5.99-8.83,20.27-48.5,21.12-49.87c-0.68,27.77,1.3,129.32-30.78,129.32c-28.37,0-33.72-34.65-37.11-34.65c-2.8,0-7.65,55.29,42.64,55.29c50.42,0,57.87-65.34,57.87-123.68c0-58.35-1.46-109.22-1.99-118.53C1381.69,213.19,1372.14,208.64,1367.62,205.63z"/></g>
+    </svg>
+  </footer>
+</body>
+</html>
