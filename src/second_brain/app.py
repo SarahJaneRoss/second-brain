@@ -258,14 +258,22 @@ Write the check-in now."""
 def standup():
     """Generate a Basecamp standup from today's journal.
 
+    If run after midnight, automatically falls back to yesterday's journal.
+
     Example: second_brain standup
     """
+    from datetime import timedelta
     notes_dir = get_notes_dir()
     path = get_journal_path(notes_dir)
 
     if not path.exists():
-        click.echo("No journal entries for today yet.")
-        return
+        yesterday = datetime.now() - timedelta(days=1)
+        path = notes_dir / f"journal_{yesterday.strftime('%Y-%m-%d')}.md"
+        if path.exists():
+            click.echo("(Using yesterday's journal)\n")
+        else:
+            click.echo("No journal entries found for today or yesterday.")
+            return
 
     journal_content = path.read_text().strip()
     if not journal_content:
