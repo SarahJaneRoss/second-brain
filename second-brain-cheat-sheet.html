@@ -317,6 +317,14 @@
             <td>sb</td>
             <td>Open the visual app &nbsp;<span style="color:#8BA5B5; font-size:11px;">press Ctrl+C to quit</span></td>
           </tr>
+          <tr>
+            <td>import_tasks</td>
+            <td>Paste your Basecamp task list → adds each line to your todos</td>
+          </tr>
+          <tr>
+            <td>weekly_plan</td>
+            <td>Generate your Monday "what will you work on this week?" for Dan</td>
+          </tr>
         </table>
       </div>
 
@@ -340,8 +348,12 @@
             <p>It confirms: <em>"Work log added to today's journal"</em></p>
           </div>
         </div>
-        <h3>standup — generate your Basecamp check-in</h3>
-        <p>Type <code>standup</code> and wait a few seconds. Claude reads today's journal and writes your "What did you work on today?" response, ready to copy and paste into Basecamp.</p>
+        <h3>standup — generate your daily Basecamp check-in</h3>
+        <p>Type <code>standup</code> and wait a few seconds. Claude reads today's journal and writes your "What did you work on today?" response, ready to copy and paste into Basecamp. Works after midnight too — automatically uses yesterday's journal.</p>
+        <h3>import_tasks — add Basecamp tasks to your todos</h3>
+        <p>Same as import_log but lands in your <strong>todos</strong> list instead of your journal. Use this when pasting your Basecamp task list.</p>
+        <h3>weekly_plan — generate your Monday Basecamp plan</h3>
+        <p>Type <code>weekly_plan</code> on Monday mornings. Claude reads your todos and writes your "What will you be working on this week?" response for Dan.</p>
       </div>
     </div>
 
@@ -467,8 +479,9 @@
         <ul>
           <li>Navigate to project: <code>cd ~/claude-code-course/playground/second-brain</code></li>
           <li>Open Claude: <code>claude</code></li>
-          <li>Generate report: <code>standup</code></li>
-          <li>Copy output → paste into Basecamp check-in</li>
+          <li>Generate daily report: <code>standup</code></li>
+          <li>Copy output → paste into Basecamp daily check-in</li>
+          <li>Monday only: <code>weekly_plan</code> → paste into Basecamp weekly check-in</li>
         </ul>
       </div>
       <div class="card flex-1 bg-violet">
