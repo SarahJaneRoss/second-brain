@@ -211,6 +211,37 @@ def journal():
     click.echo(path.read_text())
 
 
+@cli.command(name="import-tasks")
+def import_tasks():
+    """Paste a task list from Basecamp into your todos.
+
+    Paste your task list, then press Ctrl+D to save.
+    Each line becomes a separate todo item.
+
+    Example: second_brain import-tasks
+    """
+    click.echo("Paste your task list, then press Ctrl+D to save:\n")
+    content = sys.stdin.read().strip()
+
+    if not content:
+        click.echo("Nothing to import.")
+        return
+
+    notes_dir = get_notes_dir()
+    path = ensure_todos(notes_dir)
+
+    lines = [line.strip() for line in content.splitlines() if line.strip()]
+    with path.open("a") as f:
+        f.write("\n")
+        for line in lines:
+            # strip any existing checkbox or bullet formatting from the source
+            clean = line.lstrip("-•*[ ]x").strip()
+            if clean:
+                f.write(f"- [ ] {clean}\n")
+
+    click.echo(f"\n{len(lines)} task(s) added to your todos.")
+
+
 @cli.command(name="import-log")
 def import_log():
     """Paste a work log into today's journal.
@@ -234,6 +265,23 @@ def import_log():
         f.write(f"\n## Work log imported at {now}\n\n{content}\n")
 
     click.echo("\nWork log added to today's journal.")
+
+
+WEEKLY_PLAN_PROMPT = """You are helping Sarah Jane write her Monday Basecamp check-in response to "What will you be working on this week?"
+
+Rules:
+- Flat list of items, no categories or headings
+- Each item is a short, plain description of a task or area of work
+- No filler, no fluff, no intro sentence
+- Prioritize: put the most important or time-sensitive things first
+- Drop anything that is clearly already done (checked off)
+- Ready to paste into Basecamp as-is
+
+Here is Sarah Jane's current todo list:
+
+{todos}
+
+Write the weekly plan now."""
 
 
 STANDUP_PROMPT = """You are helping Sarah Jane write her daily Basecamp check-in response to "What have you worked on today?"
@@ -283,6 +331,40 @@ def standup():
     prompt = STANDUP_PROMPT.format(journal=journal_content)
 
     click.echo("Generating your standup...\n")
+    result = subprocess.run(
+        ["claude", "-p", prompt],
+        capture_output=True,
+        text=True,
+    )
+
+    if result.returncode != 0:
+        click.echo(f"Error: {result.stderr}")
+        return
+
+    click.echo(result.stdout)
+
+
+@cli.command(name="weekly-plan")
+def weekly_plan():
+    """Generate a Monday Basecamp weekly plan from your todos.
+
+    Example: second_brain weekly-plan
+    """
+    notes_dir = get_notes_dir()
+    path = get_todos_path(notes_dir)
+
+    if not path.exists():
+        click.echo("No todos found. Add some with the todo command first.")
+        return
+
+    todos_content = path.read_text().strip()
+    if not todos_content:
+        click.echo("Your todos list is empty.")
+        return
+
+    prompt = WEEKLY_PLAN_PROMPT.format(todos=todos_content)
+
+    click.echo("Generating your weekly plan...\n")
     result = subprocess.run(
         ["claude", "-p", prompt],
         capture_output=True,
