@@ -329,7 +329,7 @@
       </div>
 
       <div class="card flex-1 accent-green">
-        <h3 style="margin-top:0;">import_log — add CMS work to your journal</h3>
+        <h3 style="margin-top:0;">import_log — add CMS work or long notes to your journal</h3>
         <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:12px;">
           <div style="display:flex; align-items:flex-start; gap:8px;">
             <span class="step-num">1</span>
@@ -337,17 +337,23 @@
           </div>
           <div style="display:flex; align-items:flex-start; gap:8px;">
             <span class="step-num yellow">2</span>
-            <p>Paste your CMS work log contents</p>
+            <p><strong>Wait</strong> for it to say "Paste your work log..." — do not paste until you see this message</p>
           </div>
           <div style="display:flex; align-items:flex-start; gap:8px;">
             <span class="step-num green">3</span>
-            <p>Press <kbd>Ctrl</kbd>+<kbd>D</kbd> — hold Control, tap D. This tells the terminal "I'm done."</p>
+            <p>Paste your content</p>
           </div>
           <div style="display:flex; align-items:flex-start; gap:8px;">
             <span class="step-num violet">4</span>
+            <p>Press <kbd>Ctrl</kbd>+<kbd>D</kbd> — hold Control, tap D. This tells the terminal "I'm done."</p>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:8px;">
+            <span class="step-num red">5</span>
             <p>It confirms: <em>"Work log added to today's journal"</em></p>
           </div>
         </div>
+        <h3>vlog — voice dictation shortcut</h3>
+        <p>Dictate with WhisperFlow → it lands on your clipboard → type <code>vlog</code> and press <kbd>Enter</kbd>. Done. No pasting, no Ctrl+D, no apostrophe problems.</p>
         <h3>standup — generate your daily Basecamp check-in</h3>
         <p>Type <code>standup</code> and wait a few seconds. Claude reads today's journal and writes your "What did you work on today?" response, ready to copy and paste into Basecamp. Works after midnight too — automatically uses yesterday's journal.</p>
         <h3>import_tasks — add Basecamp tasks to your todos</h3>
